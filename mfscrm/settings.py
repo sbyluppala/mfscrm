@@ -28,6 +28,25 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+    }
+}
+
+try:
+    from local_settings import *
+except ImportError:
+    # Update database configuration with $DATABASE_URL.
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+    DATABASES['default'] = dj_database_url.config()
+    pass
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -80,26 +99,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mfscrm.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-    }
-}
-
-try:
-    from local_settings import *
-except ImportError:
-    # Update database configuration with $DATABASE_URL.
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
-    DATABASES['default'] = dj_database_url.config()
-    pass
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -135,7 +134,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
