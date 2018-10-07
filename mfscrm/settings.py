@@ -51,6 +51,7 @@ except ImportError:
 ALLOWED_HOSTS = ['*']
 
 LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/home'
 
 # Application definition
 
@@ -75,6 +76,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mfscrm.urls'
@@ -148,3 +152,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 # https://warehouse.python.org/project/whitenoise/
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
